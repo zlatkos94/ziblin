@@ -14,10 +14,18 @@
             ({{dismissCountDown}}) {{ message }}
           </CAlert>
           <CInput label="Name" type="text" placeholder="Name" v-model="client.company_name"/>
+          <CInput label="Client name" type="text" placeholder="Client name" v-model="client.client_name"></CInput>
+          <CInput label="address" type="text" placeholder="Company address" v-model="client.address"></CInput>
+          <CInput label="Client city" type="text" placeholder="Client city" v-model="client.city"></CInput>
+          <CInput label=" phone" type="text" placeholder="Company phone" v-model="client.phone"></CInput>
+          <CInput label="Client facebook" type="text" placeholder="Client facebook" v-model="client.facebook"></CInput>
+          <CInput label="Company instagram" type="text" placeholder="Company instagram" v-model="client.instagram"></CInput>
+          <CInput label="Client mail" type="text" placeholder="Client mail" v-model="client.mail"></CInput>
+<!--          <CInput label="lat" type="text" placeholder="lat" v-model="client.lat"></CInput>-->
+<!--          <CInput label="long" type="text" placeholder="long" v-model="client.long"></CInput>-->
           <CInput
               label="Description"
               placeholder="Description.."
-
               textarea="true"
               rows="9"
               v-model="client.description"

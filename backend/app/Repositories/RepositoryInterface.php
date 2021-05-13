@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 interface RepositoryInterface
 {
-    public function all($fk_user);
+    public function all();
 
     public function create();
 

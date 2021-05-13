@@ -93,7 +93,7 @@ export default {
       clients: [],
       promoMaterials: [],
       message: '',
-      dismissSecs: 7,
+      dismissSecs: 2,
       dismissCountDown: 0,
       showDismissibleAlert: false
     }
@@ -129,7 +129,7 @@ export default {
               fk_client: null,
               fk_promo_material: null,
             };
-            self.message = 'Successfully created client.';
+            self.message = 'Successfully created RoadMap.';
             self.showAlert();
           }).catch(function (error) {
         if (error.response.data.message == 'The given data was invalid.') {

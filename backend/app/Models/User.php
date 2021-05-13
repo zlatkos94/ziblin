@@ -75,15 +75,5 @@ class User extends Authenticatable implements JWTSubject
         'menuroles' => 'user',
     ];
 
-//    public function checkRole(): bool
-//    {
-//        $auth= Auth::user();
-//
-//        if($this->$auth->name==='admin') {
-//            return true;
-//        }
-//        return false;
-//    }
-
 
 }

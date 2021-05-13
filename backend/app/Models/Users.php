@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class Users extends Model
 {
@@ -21,6 +22,11 @@ class Users extends Model
     public function region()
     {
         return $this->belongsTo(Region::class);
+    }
+
+    public function DropDownUser()
+    {
+        return DB::table('users')->select('users.name as label', 'users.id as value')->get();
     }
 
 //    public function checkRole(): bool

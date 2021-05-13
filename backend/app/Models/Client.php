@@ -44,10 +44,12 @@ class Client extends Model
         return $this->hasMany(TourRules::class);
     }
 
-    public function AllClients()
+    public function DropDownClient()
     {
-        $clients = Client::select('clients.company_name as label', 'clients.id as value')->get();
-        return $clients;
+//        $clients = Client::select('clients.company_name as label', 'clients.id as value')->get();
+//        return $clients;
+
+        return Client::select('clients.company_name as label', 'clients.id as value')->get();
     }
 
 }

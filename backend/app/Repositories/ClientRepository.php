@@ -2,6 +2,9 @@
 
 namespace App\Repositories;
 
+use App\Models\Client;
+use App\Models\Region;
+use App\Models\Users;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -20,7 +23,7 @@ class ClientRepository implements RepositoryInterface
     }
 
     // Get all instances of model
-    public function all($fk_user)
+    public function all()
     {
         $auth= Auth::user();
         if ($auth->name === 'admin') {
@@ -62,9 +65,13 @@ class ClientRepository implements RepositoryInterface
 
     public function edit($id)
     {
-        $regions = DB::table('regions')->select('regions.name as label', 'regions.id as value')->get();
+//        $regions = DB::table('regions')->select('regions.name as label', 'regions.id as value')->get();
+//        $client = DB::table('clients')->where('id', '=', $id)->first();
+//        $users = DB::table('users')->select('users.name as label', 'users.id as value')->get();
+
+        $regions = (new Region())->DropDownRegion();
         $client = DB::table('clients')->where('id', '=', $id)->first();
-        $users = DB::table('users')->select('users.name as label', 'users.id as value')->get();
+        $users = (new Users())->DropDownUser();
 
         return ['regions' => $regions, 'client' => $client, 'users' => $users];
     }

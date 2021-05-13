@@ -4,7 +4,7 @@
       <CCard>
         <CCardBody>
           <h3>
-            Edit Note id:  {{ $route.params.id }}
+            Edit Region id:  {{ $route.params.id }}
           </h3>
           <CAlert
               :show.sync="dismissCountDown"
@@ -50,7 +50,7 @@ export default {
       },
       statuses: [],
       message: '',
-      dismissSecs: 7,
+      dismissSecs: 2,
       dismissCountDown: 0,
     }
   },
@@ -68,7 +68,7 @@ export default {
             description:          self.region.description,
           })
           .then(function (response) {
-            self.message = 'Successfully updated note.';
+            self.message = 'Successfully updated region.';
             self.showAlert();
           }).catch(function (error) {
         if(error.response.data.message == 'The given data was invalid.'){

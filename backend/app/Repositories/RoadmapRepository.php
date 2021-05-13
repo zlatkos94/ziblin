@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 
@@ -21,12 +22,35 @@ class RoadmapRepository implements RepositoryInterface
     // Get all instances of model
     public function all()
     {
+        $auth= Auth::user();
+
+        if ($auth->name === 'admin') {
+
         return $this->model::join('users', 'users.id', '=', 'roadmap.fk_user')
             ->join('promo_material', 'promo_material.id', '=', 'roadmap.fk_promo_material')
             ->join('clients', 'clients.id', '=', 'roadmap.fk_client')
             ->select('roadmap.*', 'users.name as user_name', 'promo_material.name as material_name',
                 'clients.company_name as client_company_name','clients.client_name as client_client_name')
             ->get();
+        }
+        else {
+
+            return $this->model::join('users', 'users.id', '=', 'roadmap.fk_user')
+                ->join('promo_material', 'promo_material.id', '=', 'roadmap.fk_promo_material')
+                ->join('clients', 'clients.id', '=', 'roadmap.fk_client')
+                ->select('roadmap.*', 'users.name as user_name', 'promo_material.name as material_name',
+                    'clients.company_name as client_company_name','clients.client_name as client_client_name')
+                ->where('users.id',$auth->id)
+                ->get();
+        }
+
+
+//        return $this->model::join('users', 'users.id', '=', 'roadmap.fk_user')
+//            ->join('promo_material', 'promo_material.id', '=', 'roadmap.fk_promo_material')
+//            ->join('clients', 'clients.id', '=', 'roadmap.fk_client')
+//            ->select('roadmap.*', 'users.name as user_name', 'promo_material.name as material_name',
+//                'clients.company_name as client_company_name','clients.client_name as client_client_name')
+//            ->get();
     }
 
     public function create()

@@ -55,9 +55,7 @@ class ClientController extends Controller
 
 //        $regions = $this->model->create();
 
-        $region = new Region();
-
-        $regions = $region->DropDownRegion();
+        $regions = (new Region())->DropDownRegion();
 
         return response()->json( $regions );
     }

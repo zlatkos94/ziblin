@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\PromoMaterial;
 use App\Models\Roadmap;
 use App\Repositories\RoadmapRepository;
 use Illuminate\Database\Eloquent\Model;
@@ -21,6 +22,7 @@ class RoadmapController extends Controller
         $this->middleware('auth:api');
 
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -52,11 +54,11 @@ class RoadmapController extends Controller
     public function create()
     {
 
-        $clients = (new Client())->AllClients();
+        $clients = (new Client())->DropDownClient();
+        $promoMaterials = (new PromoMaterial())->DropDownPromoMaterial();
 
 //        $clients = DB::table('clients')->select('clients.company_name as label', 'clients.id as value')->get();
-
-        $promoMaterials = DB::table('promo_material')->select('promo_material.name as label', 'promo_material.id as value')->get();
+//        $promoMaterials = DB::table('promo_material')->select('promo_material.name as label', 'promo_material.id as value')->get();
 
         return response()->json(['clients' => $clients, 'promoMaterials' => $promoMaterials]);
 
@@ -74,18 +76,21 @@ class RoadmapController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
 
         $validatedData = $request->validate([
-            'fk_client'      => 'required',
-            'fk_promo_material'      => 'required',
-            'description'       => 'required|min:1|max:64',
-            'applies_to_date'   => 'required|date_format:Y-m-d',
-        ]);
+            'fk_client' => 'required',
+            'fk_promo_material' => 'required',
+            'description' => 'required|min:1|max:64',
+            'applies_to_date' => 'required|date_format:Y-m-d',
+        ],
+            [
+                'fk_client.required' => 'Unesite klijenta!',
+            ]);
         $fk_user = Auth::id();
 
         $roadmap = new Roadmap();
@@ -95,13 +100,13 @@ class RoadmapController extends Controller
         $roadmap->description = $request->input('description');
         $roadmap->applies_to_date = $request->input('applies_to_date');
         $roadmap->save();
-        return response()->json( ['status' => 'success'] );
+        return response()->json(['status' => 'success']);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Roadmap  $roadmap
+     * @param \App\Models\Roadmap $roadmap
      * @return \Illuminate\Http\Response
      */
     public function show(Roadmap $roadmap)
@@ -112,37 +117,37 @@ class RoadmapController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Roadmap  $roadmap
+     * @param \App\Models\Roadmap $roadmap
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
         $roadmap = DB::table('roadmap')->where('id', '=', $id)->first();
 
-        $clients = DB::table('clients')->select('clients.company_name as label' , 'clients.id as value')->get();
+        $clients = DB::table('clients')->select('clients.company_name as label', 'clients.id as value')->get();
 
         $promoMaterials = DB::table('promo_material')->select('promo_material.name as label', 'promo_material.id as value')->get();
 
         $users = DB::table('users')->select('users.name as label', 'users.id as value')->get();
 
-        return response()->json(['roadmap' => $roadmap,'clients' => $clients, 'promoMaterials' => $promoMaterials,'users' => $users]);
+        return response()->json(['roadmap' => $roadmap, 'clients' => $clients, 'promoMaterials' => $promoMaterials, 'users' => $users]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Roadmap  $roadmap
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Roadmap $roadmap
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
-            'applies_to_date'      => 'required',
-            'description'      => 'required|max:1024',
-            'fk_user'      => 'required',
-            'fk_client'      => 'required',
-            'fk_promo_material'      => 'required',
+            'applies_to_date' => 'required',
+            'description' => 'required|max:1024',
+            'fk_user' => 'required',
+            'fk_client' => 'required',
+            'fk_promo_material' => 'required',
         ]);
 
         return $this->model->update($request->all(), $id);
@@ -151,15 +156,15 @@ class RoadmapController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Roadmap  $roadmap
+     * @param \App\Models\Roadmap $roadmap
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         $roadmap = Roadmap::find($id);
-        if($roadmap){
+        if ($roadmap) {
             $roadmap->delete();
         }
-        return response()->json( ['status' => 'success'] );
+        return response()->json(['status' => 'success']);
     }
 }
